@@ -1,11 +1,17 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { TabsPage } from './tabs.page';
+import { AuthGuard } from "../auth.guard";
 
 const routes: Routes = [
   {
+    path: 'login',
+    loadChildren: () => import('../login/login.module').then(m => m.LoginPageModule)
+  },
+  {
     path: 'tabs',
     component: TabsPage,
+    canActivate: [AuthGuard], // Protect this route with the AuthGuard
     children: [
       {
         path: 'tab1',
@@ -28,7 +34,7 @@ const routes: Routes = [
   },
   {
     path: '',
-    redirectTo: '/tabs/tab1',
+    redirectTo: '/login',
     pathMatch: 'full'
   }
 ];
